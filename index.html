@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Web Design Tools</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  <body ng-app="resourcesApp">
+
+  <div ng-controller="resourcesCtrl">
+    <!-- Search Container -->
+    <div id="search-ghost"></div>
+    <div id="search" class="element-fixed">
+      <form>
+        <div class="input-group">
+          <label for="resource-search">
+            <span class="hidden">Search</span>
+          </label>
+          <input type="text" class="form-control" id="resource-search" placeholder="Search resources" ng-model="searchItems">
+          <div class="input-group-btn">
+            <div class="btn-group" uib-dropdown>
+              <button id="category-select-button" type="button" class="btn btn-primary" uib-dropdown-toggle>
+                Select category <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu role="menu" aria-labelledby="category-select-button">
+                <li ng-repeat="resource in resources">
+                  <a class="menu-anchor" href="#{{ resource.class }}" du-smooth-scroll>{{ resource.category }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Introduction -->
+    <article id="introduction">
+      <h1>The 100 Best Web Design Tools Ever</h1>
+      <h4>Based on <a href="https://medium.com/@illustrio_67760/the-100-best-web-design-tools-ever-5e5cf33ba7a9#.a53ugnyk8" target="_blank">this infographic</a> by <a href="https://app.illustrio.com/" target="_blank">Illustrio</a></h4>
+
+      <p>I love what Illustro did with compiling all of these web design tools into an infographic. I thought it would be great if that infographic were interactive. This is an angular app that allows you to search their resource list by a category title or the name of a web design tool.</p>
+      <p>This was quite a bit of information to port into a JSON file, so if you see any spelling mistakes or broken links, call me out.
+    </article>
+
+    <!-- Category Content -->
+    <article ng-repeat="resource in resources | filter:searchItems" class="resources resources--{{ resource.class }}" ng-show="resource.checked == true" id="{{ resource.class }}">
+
+      <header class="resources-header cf">
+        <h2 class="category-title left">{{ resource.category }}</h2>
+        <div class="item-featured right" ng-repeat="featured in resource.featured | filter:searchItems">
+          <section>
+            <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+            <div>
+              <h4 class="item-title">
+                <i class="icon-premium" ng-if="featured.free == false"></i>
+                {{ featured.title }}
+              </h4>
+              <p class="item-link">
+                <a href="{{ item.url }}" target="_blank">{{ featured.url }}</a>
+              </p>
+            </div>
+          </section>
+          <p class="item-description">{{ featured.desc }}</p>
+        </div>
+      </header>
+      
+      <ul class="item-list">
+        <li class="item col" ng-repeat="item in resource.items | filter:searchItems">
+          <h4 class="item-title">
+            <i class="icon-premium" ng-if="item.free == false"></i>
+            {{ item.title }}
+          </h4>
+          <p class="item-link">
+            <a href="{{ item.url }}" target="_blank">{{ item.url }}</a>
+          </p>
+          <p class="item-description">{{ item.desc }}</p>
+        </li>
+      </ul>
+      
+    </article><!-- /resources -->
+    
+  </div><!-- /controller div -->
+
+</body>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.3/ui-bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>

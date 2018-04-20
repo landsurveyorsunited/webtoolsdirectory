@@ -1,0 +1,303 @@
+@import 'susy';
+
+$aquaMarine: #7CFAC9;
+$dolly: #F7FA7C;
+$electricBlue: #7CF7FA;
+$grey: #858585;
+$heliotrope: #C97CFA;
+$lightGreen: #7CFA83;
+$lightSlateBlue: #837CFA;
+$mayaBlue: #7CC2FA;
+$melon: #F68383;
+$ming: #3E7B7D;
+$neonBlue: #4A63FD;
+$nero: #171717;
+$sulu: #C2FA7C;
+$tangerine: #F8C881;
+$whisper: #EDEDED;
+
+$colorLink: $neonBlue;
+$colorBGFeatured: $nero;
+
+$categories: (
+  // Match classes set in json file
+  typography: $melon,
+  stock-photos: $tangerine,
+  stock-graphics: $dolly,
+  infographics: $sulu,
+  collaboration: $lightGreen,
+  colors: $aquaMarine,
+  inspiration: $electricBlue,
+  pictures-editor: $mayaBlue,
+  logo-design: $lightSlateBlue,
+  prototyping: $heliotrope
+);
+
+$mqSmall: 600px;
+$mqMedium: 800px;
+$marginElement: 24px;
+$paddingPage: $marginElement;
+$paddingElementSmall: $marginElement/2;
+$paddingElementMedium: $marginElement;
+$paddingElementLarge: $marginElement*2;
+$sizeFeatureHeart: 40px;
+$widthPage: (1200px - ($paddingPage * 2))  + ($paddingPage * 2);
+$widthFeature: 300px;
+$wrapText: 700px;
+
+@mixin container-padding {
+  padding: $paddingElementSmall;
+  @media (min-width: #{$mqSmall}) {
+    padding: $paddingElementMedium;
+  }
+  @media (min-width: #{$mqMedium}) {
+    padding: $paddingElementLarge;
+  }
+}
+
+$susy: (
+  container: $widthPage,
+  gutters: 2
+);
+
+.col {
+  @media (min-width: #{$mqSmall}) and (max-width: #{$mqMedium}) {
+    @include span(6 of 12);
+    &:nth-child(odd) {
+      clear: both;
+    }
+    &:nth-child(even) {
+      @include span(last 6 of 12);
+    } 
+  }
+  @media (min-width: #{$mqMedium}) {
+    @include span(4 of 12);
+    &:nth-child(3n + 1) {
+      clear: both;
+    } 
+    &:nth-child(3n + 3) {
+      @include span(last 4 of 12);
+    } 
+  }
+}
+
+.hidden {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+
+.cf {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  } 
+}
+
+body {
+  margin: 0 auto;
+  padding: 0 $paddingPage;
+  max-width: $widthPage;
+  color: $nero;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+  @media (min-width: #{$mqMedium}) {
+    font-size: 50px;
+  }
+}
+
+a {
+  color: $colorLink;
+  &:hover {
+    color: darken($colorLink, 10%);
+  }
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+.left {
+  @media (min-width: #{$mqMedium}) {
+    float: left;
+  }
+}
+
+.right {
+  @media (min-width: #{$mqMedium}) {
+    float: right;
+  }
+}
+
+.element-fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  background-color: rgba($whisper, 0.95);
+  border-bottom: 1px solid darken($whisper, 5%);
+  box-shadow: 0 2px 6px rgba(black, 0.06);
+}
+
+form {
+  margin: 0 auto;
+  padding: $paddingPage/2 $paddingPage;
+  max-width: $widthPage;
+  label.resource-search {
+    background-color: darken($whisper, 10%);
+    span {
+      visibility: hidden;
+    }
+  }
+  .form-group {
+    display: flex;
+  }
+}
+
+#introduction {
+  margin: $marginElement*2 auto;
+  max-width: $wrapText;
+  text-align: center;
+  h4 {
+    margin-bottom: 24px;
+  }
+}
+
+.resources {
+  @include container();
+  @include container-padding;
+  margin-bottom: $marginElement;
+  background-color: lighten($whisper, 5%);
+  border: 1px solid $whisper;
+  border-radius: 4px;
+  padding: $paddingElementSmall;
+
+  @each $category, $themeColor in $categories {
+    &--#{$category} {
+      background: $themeColor;
+      .item {
+        a {
+          color: darken($themeColor, 45%);
+        }
+        .icon-premium {
+          color: $themeColor;
+        }
+      }
+      .item-featured {
+        a {
+          color: $themeColor;
+        }
+        .icon-premium {
+          color: $colorBGFeatured;
+          background-color: $themeColor;
+        }
+        .glyphicon {
+          color: $themeColor;
+          border-color: $themeColor;
+        }
+      }
+    }
+  }
+
+}
+
+.category-title {
+  margin-top: 0;
+  margin-bottom: $marginElement;
+  @media (min-width: #{$mqMedium}) {
+    width: calc(100% - ${widthFeature});
+  }
+}
+
+.item {
+  margin-bottom: $marginElement;
+  *:last-child {
+    margin-bottom: 0;
+  }
+  h4 {
+    margin-bottom: 0;
+  }
+}
+
+.item-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.item-link {
+  margin-bottom: 4px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: $colorLink;
+  a {
+    display: inline-block;
+    padding: 4px 0;
+  }
+}
+
+.item-category {
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.item-featured {
+  margin-bottom: $marginElement;
+  padding: $paddingPage/2 $paddingPage;
+  color: white;
+  background-color: $colorBGFeatured;
+  border-radius: 4px;
+  @media (min-width: #{$mqMedium}) {
+    width: $widthFeature;
+  }
+  section {
+    display: flex;
+    align-items: center;
+  }
+  h4 {
+    margin-bottom: 0;
+  }
+  .glyphicon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 18px;
+    font-size: 18px;
+    width: $sizeFeatureHeart;
+    height: $sizeFeatureHeart;
+    border-radius: 100%;
+    border: 3px solid;
+    &:before {
+      margin-left: -2px;
+    }
+  }
+}
+
+.icon-premium {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 2px 4px;
+  font-size: 9px;
+  background-color: $nero;
+  border-radius: 2px;
+  &:before {
+    content: '$';
+  }
+}
